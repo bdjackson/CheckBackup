@@ -1,7 +1,8 @@
 #!/bin/bash
 
 LOCAL_MOVIES_DIR=${HOME}/Music/iTunes/iTunes\ Music/Movies
-BACKUP_MOVIES_DIR=/Volumes/Seagate\ Data/Big\ Drive\ backup/Media\ Drive\ Movies/Movies
+# BACKUP_MOVIES_DIR=/Volumes/Seagate\ Data/Big\ Drive\ backup/Media/Movies
+BACKUP_MOVIES_DIR=/Volumes/Data/Media/Movies
 
 echo ${LOCAL_MOVIES_DIR}
 echo ${BACKUP_MOVIES_DIR}

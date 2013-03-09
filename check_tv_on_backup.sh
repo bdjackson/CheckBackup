@@ -1,23 +1,46 @@
 #!/bin/bash
 
-LOCAL_MOVIES_DIR=${HOME}/Music/iTunes/iTunes\ Music/TV\ Shows
-BACKUP_MOVIES_DIR=/Volumes/Seagate\ Data/Big\ Drive\ backup/Media\ Drive\ Movies/TV\ Shows
+LOCAL_TV_SHOW_DIR=${HOME}/Music/iTunes/iTunes\ Music/TV\ Shows
+# BACKUP_TV_SHOW_DIR=/Volumes/Seagate\ Data/Big\ Drive\ backup/Media/TV\ Shows
+BACKUP_TV_SHOW_DIR=/Volumes/Data/Media/TV\ Shows
 
-echo ${LOCAL_MOVIES_DIR}
-echo ${BACKUP_MOVIES_DIR}
+echo ${LOCAL_TV_SHOW_DIR}
+echo ${BACKUP_TV_SHOW_DIR}
 
 MISSING_FILES=()
 
-for FULL_ITUNES_FILE in "${LOCAL_MOVIES_DIR}"/*
+for SHOW_DIR in "$LOCAL_TV_SHOW_DIR"/*
 do
-  ITUNES_FILE=`echo $FULL_ITUNES_FILE | sed "s,${LOCAL_MOVIES_DIR}/\(.*\),\1,g"`
-  echo "Checking for file: $ITUNES_FILE"
+  SHOW_TITLE=`echo $SHOW_DIR | sed "s,${LOCAL_TV_SHOW_DIR}/\(.*\),\1,g"`
+  echo "Checking the show: ${SHOW_TITLE}"
 
-  if [ ! -f "${BACKUP_MOVIES_DIR}/${ITUNES_FILE}" ]
-  then
-    echo "   File not found on backup: ${ITUNES_FILE}"
-    MISSING_FILES+=("${ITUNES_FILE}")
-  fi
+  for FULL_ITUNES_FILE in "${SHOW_DIR}"/*
+  do
+    ITUNES_FILE=`echo $FULL_ITUNES_FILE | sed "s,${SHOW_DIR}/\(.*\),\1,g"`
+    if [ "${ITUNES_FILE}" == "*" ]
+    then
+      continue
+    fi
+
+    FOUND_FILE=0
+    echo "    Checking for file: $ITUNES_FILE"
+  
+    for FULL_SEASON_DIR in "${BACKUP_TV_SHOW_DIR}/${SHOW_TITLE}/"/Season\ *
+    do
+      LOCATION_TO_CHECK=${FULL_SEASON_DIR}/${ITUNES_FILE}
+      if [ -f "${LOCATION_TO_CHECK}" ]
+      then
+        echo "        Found file at location: ${LOCATION_TO_CHECK}"
+        FOUND_FILE=1
+        break
+      fi
+    done
+
+    if [ ${FOUND_FILE} == 0 ]
+    then
+      MISSING_FILES+=("${FULL_ITUNES_FILE}")
+    fi
+  done
 done
 
 echo ''

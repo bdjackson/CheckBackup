@@ -28,4 +28,5 @@ echo '-------------------------------------------------------------------------'
 for ((i = 0; i < ${#MISSING_FILES[@]}; i++))
 do
     echo "${MISSING_FILES[$i]}"
+    # echo "    cp \"${LOCAL_MOVIES_DIR}/${MISSING_FILES[$i]}\" \"${BACKUP_MOVIES_DIR}/${MISSING_FILES[$i]}\""
 done

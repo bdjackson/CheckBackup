@@ -1,8 +1,7 @@
 #!/bin/bash
 
-LOCAL_TV_SHOW_DIR=${HOME}/Music/iTunes/iTunes\ Music/TV\ Shows
-# BACKUP_TV_SHOW_DIR=/Volumes/Seagate\ Data/Big\ Drive\ backup/Media/TV\ Shows
-BACKUP_TV_SHOW_DIR=/Volumes/Data/Media/TV\ Shows
+LOCAL_TV_SHOW_DIR="${HOME}/Music/iTunes/iTunes Music/TV Shows"
+BACKUP_TV_SHOW_DIR="/Volumes/Drobo/Media/TV Shows"
 
 echo ${LOCAL_TV_SHOW_DIR}
 echo ${BACKUP_TV_SHOW_DIR}
@@ -11,12 +10,12 @@ MISSING_FILES=()
 
 for SHOW_DIR in "$LOCAL_TV_SHOW_DIR"/*
 do
-  SHOW_TITLE=`echo $SHOW_DIR | sed "s,${LOCAL_TV_SHOW_DIR}/\(.*\),\1,g"`
+  SHOW_TITLE=$(echo $SHOW_DIR | sed "s,${LOCAL_TV_SHOW_DIR}/\(.*\),\1,g")
   echo "Checking the show: ${SHOW_TITLE}"
 
   for FULL_ITUNES_FILE in "${SHOW_DIR}"/*
   do
-    ITUNES_FILE=`echo $FULL_ITUNES_FILE | sed "s,${SHOW_DIR}/\(.*\),\1,g"`
+    ITUNES_FILE=$(echo $FULL_ITUNES_FILE | sed "s,${SHOW_DIR}/\(.*\),\1,g")
     if [ "${ITUNES_FILE}" == "*" ]
     then
       continue

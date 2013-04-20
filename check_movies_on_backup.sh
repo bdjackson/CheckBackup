@@ -26,7 +26,7 @@ function check_copy_file {
 
   if $do_copy
   then
-    cp $1 $2
+    cp "$1" "$2"
   fi
 }
 
@@ -63,7 +63,7 @@ echo '- Files missing from backup                                             -'
 echo '-------------------------------------------------------------------------'
 for ((i = 0; i < ${#MISSING_FILES[@]}; i++))
 do
-    echo "${MISSING_FILES[$i]}"
+  echo "${MISSING_FILES[$i]}"
 done
 echo ''
 
@@ -72,8 +72,7 @@ echo ''
 # ------------------------------------------------------------------------------
 if [[ ${#MISSING_FILES[@]} > 0 ]]
 then
-  MISSING_FILES=$1
-  echo '-----------------------------------------------------------------------'
+  echo '-------------------------------------------------------------------------'
   DO_BACKUP=false
   while true
   do
@@ -89,15 +88,16 @@ then
               ;;
     esac
   done
-  echo ''
 
   # Backup if the user wants to
   if $DO_BACKUP
   then
     echo "Backing up files!"
+    echo ""
+
     for ((i = 0; i < ${#MISSING_FILES[@]}; i++))
     do
-      echo "  Backing up ${MISSING_FILES[$i]}"
+      echo "Backing up ${MISSING_FILES[$i]}"
       cp "${LOCAL_MOVIES_DIR}/${MISSING_FILES[$i]}" "${BACKUP_MOVIES_DIR}/${MISSING_FILES[$i]}"
     done
   else
@@ -111,7 +111,7 @@ fi
 # ------------------------------------------------------------------------------
 if [[ ${#ALL_FILES[@]} > 0 ]]
 then
-  echo '-----------------------------------------------------------------------'
+  echo '-------------------------------------------------------------------------'
   DO_DIFF=false
   while true
   do
@@ -139,7 +139,7 @@ then
       BACKUP_FILE=${BACKUP_MOVIES_DIR}/${ALL_FILES[$i]}
 
       echo ''
-      echo '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
+      echo '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
       echo "Doing diff of ${ALL_FILES[$i]}"
       if diff "${LOCAL_FILE}" "${BACKUP_FILE}" >/dev/null
       then
@@ -158,12 +158,12 @@ then
           case $ver in
             [Ll]* ) ver="l"
                     echo "Copying local file to backup"
-                    check_copy_file ${LOCAL_FILE} ${BACKUP_FILE}
+                    check_copy_file "${LOCAL_FILE}" "${BACKUP_FILE}"
                     break
                     ;;
             [Bb]* ) ver="b"
                     echo "Copying backup file to local"
-                    check_copy_file ${BACKUP_FILE} ${LOCAL_FILE}
+                    check_copy_file "${BACKUP_FILE}" "${LOCAL_FILE}"
                     break
                     ;;
             [Ww]* ) ver="w"

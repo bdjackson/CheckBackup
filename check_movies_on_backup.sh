@@ -35,6 +35,11 @@ echo "Local movie directory:  ${LOCAL_MOVIES_DIR}"
 echo "Backup movie directory: ${BACKUP_MOVIES_DIR}"
 echo ""
 
+if [[ $(ls "${LOCAL_MOVIES_DIR}") == "" ]] ; then
+  echo "No movies to check!"
+  exit
+fi
+
 # ------------------------------------------------------------------------------
 # - Check all the files in LOCAL_MOVIES_DIR, and see if they exist in 
 # - BACKUP_MOVIES_DIR
